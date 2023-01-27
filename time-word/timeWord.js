@@ -5,19 +5,20 @@ function timeWord(time) {
 
 function timeStr(hour, min) {
   if (hour === "00" && min === "00") return "midnight";
-  const [adjHour, meridiem] = meridiem(hour);
-  if (adjHour === "01") return "one" + minStr(min) + meridiem;
-  if (adjHour === "02") return "two" + minStr(min) + meridiem;
-  if (adjHour === "03") return "three" + minStr(min) + meridiem;
-  if (adjHour === "04") return "four" + minStr(min) + meridiem;
-  if (adjHour === "05") return "five" + minStr(min) + meridiem;
-  if (adjHour === "06") return "six" + minStr(min) + meridiem;
-  if (adjHour === "07") return "seven" + minStr(min) + meridiem;
-  if (adjHour === "08") return "eight" + minStr(min) + meridiem;
-  if (adjHour === "09") return "nine" + minStr(min) + meridiem;
-  if (adjHour === "10") return "ten" + minStr(min) + meridiem;
-  if (adjHour === "11") return "eleven" + minStr(min) + meridiem;
-  if (adjHour === "12") return "twelve" + minStr(min) + meridiem;
+  if (hour === "12" && min === "00") return "noon";
+  const [adjHour, meridiem ] = convertHour(hour);
+  if (adjHour === "01") return "one" + " " + minStr(min) + " " + meridiem;
+  if (adjHour === "02") return "two" + " " + minStr(min) + " " + meridiem;
+  if (adjHour === "03") return "three" + " " + minStr(min) + " " + meridiem;
+  if (adjHour === "04") return "four" + " " + minStr(min) + " " + meridiem;
+  if (adjHour === "05") return "five" + " " + minStr(min) + " " + meridiem;
+  if (adjHour === "06") return "six" + " " + minStr(min) + " " + meridiem;
+  if (adjHour === "07") return "seven" + " " + minStr(min) + " " + meridiem;
+  if (adjHour === "08") return "eight" + " " + minStr(min) + " " + meridiem;
+  if (adjHour === "09") return "nine" + " " + minStr(min) + " " + meridiem;
+  if (adjHour === "10") return "ten" + " " + minStr(min) + " " + meridiem;
+  if (adjHour === "11") return "eleven" + " " + minStr(min) + " " + meridiem;
+  if (adjHour === "00") return "twelve" + " " + minStr(min) + " " + meridiem;
 }
 
 function minStr(min) {
@@ -33,16 +34,16 @@ function minStr(min) {
 }
 
 function onesStr(ones) {
-  if (ones === 0) return "";
-  if (ones === 1) return "one";
-  if (ones === 2) return "two";
-  if (ones === 3) return "three";
-  if (ones === 4) return "four";
-  if (ones === 5) return "five";
-  if (ones === 6) return "six";
-  if (ones === 7) return "seven";
-  if (ones === 8) return "eight";
-  if (ones === 9) return "nine";
+  if (ones === "0") return "";
+  if (ones === "1") return "-one";
+  if (ones === "2") return "-two";
+  if (ones === "3") return "-three";
+  if (ones === "4") return "-four";
+  if (ones === "5") return "-five";
+  if (ones === "6") return "-six";
+  if (ones === "7") return "-seven";
+  if (ones === "8") return "-eight";
+  if (ones === "9") return "-nine";
 }
 
 function teensStr(ones) {
@@ -58,10 +59,12 @@ function teensStr(ones) {
   if (ones === "9") return "nineteen";
 }
 
-function meridiem(hour) {
+function convertHour(hour) {
   if (hour === "00") return ["twelve", "am"];
   if (parseInt(hour) < 12) return [hour, "am"];
-
   const adjHour = parseInt(hour) - 12;
+  if (adjHour < 10) return ["0" + adjHour.toString(), "pm"]
   return [adjHour.toString(), "pm"];
 }
+
+module.exports = {timeWord, timeStr, minStr, onesStr, teensStr, convertHour};
