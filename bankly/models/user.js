@@ -79,7 +79,9 @@ class User {
    *
    * */
 
-  static async getAll(username, password) {
+  // FIXED BUG #2 - username and password are not required for authentication here nor where they used.
+
+  static async getAll() {
     const result = await db.query(
       `SELECT username,
                 first_name,
