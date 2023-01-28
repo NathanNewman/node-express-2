@@ -63,7 +63,10 @@ router.get('/:username', authUser, requireLogin, async function(
  *
  */
 
-router.patch('/:username', authUser, requireLogin, requireAdmin, async function(
+// BUG #4 FIXED - route should not use the middleware requiredAdmin. That prevents the users
+// from editing their own data, and editing their own data is a suppose to be a feature.
+
+router.patch('/:username', authUser, requireLogin, async function(
   req,
   res,
   next
@@ -76,6 +79,14 @@ router.patch('/:username', authUser, requireLogin, requireAdmin, async function(
     // get fields to change; remove token so we don't try to change it
     let fields = { ...req.body };
     delete fields._token;
+
+    // BUG #5 FIXED - should check for invalid fields before update.
+    // Check for invalid fields
+    const allowedFields = ['first_name', 'last_name', 'phone', 'email'];
+    const invalidFields = Object.keys(fields).filter(field => !allowedFields.includes(field))
+    if(invalidFields.length){
+        throw new ExpressError(`Invalid fields: ${invalidFields.join(', ')}`, 401);
+    }
 
     let user = await User.update(req.params.username, fields);
     return res.json({ user });

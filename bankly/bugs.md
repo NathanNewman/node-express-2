@@ -1,3 +1,5 @@
 - Bug #1: data.sql did not include code to make the bankly database or bankly_test database.
 - Bug #2: models/user.js. getAll received to arguments, username and password, but they were not necessary nor where they used.
 - Bug #3: middleware/auth.js. authUser does not validate token. 
+- Bug #4: routes/users.js requireAdmin should not be in the patch route. It prevents users from updating their own information.
+- Bug #5: routes/users.js in patch route, should check for invalid fields before updating.
