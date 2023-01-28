@@ -1,2 +1,3 @@
 - Bug #1: data.sql did not include code to make the bankly database or bankly_test database.
 - Bug #2: models/user.js. getAll received to arguments, username and password, but they were not necessary nor where they used.
+- Bug #3: middleware/auth.js. authUser does not validate token. 
